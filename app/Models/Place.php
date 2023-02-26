@@ -19,4 +19,12 @@ class Place extends Model
     protected $fillable = [
         'numero',
     ];
+
+    /**
+     * Récupère l'historique des réservations pour la place.
+     */
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }

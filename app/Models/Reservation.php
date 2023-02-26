@@ -28,4 +28,20 @@ class Reservation extends Model
     protected $casts = [
         'date_fin' => 'datetime',
     ];
+
+    /**
+     * Récupère l'utilisateur ayant effectué la demande de reservation.
+     */
+    public function utilisateur(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Récupère la place attribué pour la reservation.
+     */
+    public function place(): BelongsTo
+    {
+        return $this->belongsTo(Place::class);
+    }
 }
