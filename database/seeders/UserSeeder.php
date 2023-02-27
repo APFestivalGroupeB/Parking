@@ -23,5 +23,20 @@ class UserSeeder extends Seeder
             'est_admin' => true,
             'position' => null,
         ]);
+
+        DB::table('utilisateur')->insert([
+            'nom' => 'Utilisateur',
+            'prenom' => 'Utilisateur',
+            'telephone' => null,
+            'email' => 'util@parking.com',
+            'password' => Hash::make('secret'),
+            'est_valide' => false,
+            'est_admin' => false,
+            'position' => null,
+        ]);
     }
+
+  
+    
+    
 }
