@@ -17,7 +17,7 @@ class PlaceFactory extends Factory
     public function definition(): array
     {
         return [
-            'numero' => $this->faker->randomNumber(5, false),
+            'numero' => $this->faker->unique()->randomNumber(3, false),
         ];
     }
 }
