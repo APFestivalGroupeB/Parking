@@ -27,4 +27,20 @@ class Place extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function reservation(): Reservation
+    {
+        return $this->reservations()->orderBy('id','desc')->first();
+    }
+
+    public function isAssigned(): bool
+    {
+        return 0;
+    }
+
+    public function remainingTime() : int 
+    {
+        // nb jours restants 
+        return 0;
+    }
 }
