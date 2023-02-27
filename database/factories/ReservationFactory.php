@@ -17,7 +17,10 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+       
+        'date_fin'  => date('Y-m-d', strtotime(date('Y-m-d').' + 30 days')),
         ];
+            
+        
     }
 }
