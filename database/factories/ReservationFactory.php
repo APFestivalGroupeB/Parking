@@ -16,9 +16,14 @@ class ReservationFactory extends Factory
      */
     public function definition(): array
     {
+
+        $utilisateurIds = UserFactory::all()->pluck('id')->toArray(); 
         return [
        
         'date_fin'  => date('Y-m-d', strtotime(date('Y-m-d').' + 30 days')),
+        'utilisateur_id' => $this->faker->randomElement($utilisateurIds),
+
+    
         ];
             
         
