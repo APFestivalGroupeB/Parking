@@ -20,7 +20,7 @@ place.create
                             <div class="form-text text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
+                   
              
 
                         <div class="input-group">
@@ -31,10 +31,15 @@ place.create
                                 <div class="form-text text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                    </div>
                        
 
 
-
+                            <div class="section-card__footer">
+            <button type="submit" class="btn btn-success">Valider</button>
+        </div>
+    </form>
+</div>
 
                         <section class="container">
   <h2 class="py-2">Datepicker in Bootstrap 5</h2>
