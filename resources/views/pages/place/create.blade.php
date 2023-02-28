@@ -1,5 +1,5 @@
-place.create
 
+@extends('layouts.app')
 <div class="section-card">
     <div class="section-card__header">
         <h1 class="h4 text-nowrap">Ajouter une place</h1>
@@ -35,5 +35,7 @@ place.create
         </div>
     </form>
 </div>
+
+
 
                        
