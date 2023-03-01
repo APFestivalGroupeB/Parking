@@ -10,7 +10,7 @@
 	<div class="section-card__header">
 		<h1 class="h4 text-nowrap">Supprimer une reservation</h1>
 	</div>
-	<form action="{{ route('place.store') }}" method="POST">
+	<form action="{{ route('reservatione.store') }}" method="POST">
 		@csrf
 		<div class="section-card__body">
 			<div class="row">
