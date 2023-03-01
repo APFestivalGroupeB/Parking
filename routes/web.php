@@ -24,4 +24,13 @@ Auth::routes();
         ->except(['create']);
 
     Route::resource('place', App\Http\Controllers\PlaceController::class);
+
+    Route::get('/', function () {
+        return view('vueaccueil');
+    });
+    
+    Route::get('/modifprofil', function(){
+        return view('modifprofil');
+    });
+    
 //});
