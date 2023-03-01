@@ -24,4 +24,6 @@ Auth::routes();
         ->except(['create']);
 
     Route::resource('place', App\Http\Controllers\PlaceController::class);
+
+    
 //});

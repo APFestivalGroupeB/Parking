@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-
+use App\Models\Place;
 use Database\Factories\PlaceFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +14,7 @@ class PlaceSeeder extends Seeder
      */
     public function run(): void
     {
-        PlaceFactory::factory()->count(50)->create();
+        Place::factory()->count(50)->create();
 
        
     }

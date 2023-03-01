@@ -1,8 +1,15 @@
 <?php
-
+namespace App\Http\Controllers\PlaceController;
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+
+use App\Http\Controllers\Controller;
+use App\Models\Place;
+
+
+
 
 class PlaceController extends Controller
 {
@@ -11,7 +18,12 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        return view('pages.place.index');
+        
+           
+        
+        return view('pages.place.index', [
+            'places' => Place::all(),
+        ]);
     }
 
     /**
@@ -20,7 +32,12 @@ class PlaceController extends Controller
     public function create()
     {
         return view('pages.place.create');
+
     }
+
+  
+
+
 
     /**
      * Store a newly created resource in storage.
