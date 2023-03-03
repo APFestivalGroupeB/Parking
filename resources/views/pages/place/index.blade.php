@@ -28,7 +28,7 @@
 
   @foreach($places as $key => $data)
     <tr>    
-      <th>{{$data->id_place}}</th>
+      <th>{{$data->id}}</th>
       <th>{{$data->numero}}</th>
                   
     </tr>
@@ -43,7 +43,9 @@
                 </a>
             </li>
 
-            
+           
+
+  
 
            
             

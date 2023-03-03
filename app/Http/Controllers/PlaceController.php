@@ -44,8 +44,13 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect()
+        ->route('pages.place.show')
+        ->with(config('alerts.success'));
     }
+
+
+   
 
     /**
      * Display the specified resource.
@@ -61,6 +66,9 @@ class PlaceController extends Controller
     public function edit(string $id)
     {
         return view('pages.place.edit');
+
+        
+
     }
 
     /**
