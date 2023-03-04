@@ -90,4 +90,9 @@ class User extends Authenticatable
     {
         return (bool) $this->position;
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->est_admin;
+    }
 }

@@ -11,7 +11,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
-                
+
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -38,6 +38,32 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('utilisateurs.show', ['utilisateur' => Auth::user()->id]) }}">
+                            Mon profil
+                        </a>
+
+                        <hr>
+
+                        @if (Auth::user()->isAdmin())
+                        <a class="dropdown-item" href="{{ route('utilisateurs.index') }}">
+                            Utilisateurs
+                        </a>
+
+                        <a class="dropdown-item" href="{{ route('places.index') }}">
+                            Places
+                        </a>
+
+                        <a class="dropdown-item" href="">
+                            Reservations
+                        </a>
+
+                        <a class="dropdown-item" href="">
+                            File d'attente
+                        </a>
+
+                        <hr>
+                        @endif
+
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>

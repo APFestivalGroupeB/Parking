@@ -10,7 +10,7 @@
 	<div class="section-card__header">
 		<h1 class="h4 text-nowrap">Supprimer une reservation</h1>
 	</div>
-	<form action="{{ route('reservatione.store') }}" method="POST">
+	<form action="{{ route('reservations.store') }}" method="POST">
 		@csrf
 		<div class="section-card__body">
 			<div class="row">
@@ -24,9 +24,9 @@
 									<span class="input-group-append">
 										<span class="input-group-text bg-light d-block"><i class="fa fa-calendar"></i></span>
 									</span>
-								
 
-                           
+
+
                                     <div class="form-floating col">
                                          <input class="form-control @error('reservation_id') is-invalid @enderror" type="text" name="reservation_id" placeholder=" " value="{{ old('reservation_id') }}">
                                         <label>Id réservation</label>

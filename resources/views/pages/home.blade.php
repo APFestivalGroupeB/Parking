@@ -14,7 +14,7 @@
                             Résilier
                         </a>
 
-                        <form id="cancel-form" action="{{ route('reservation.destroy', ['reservation' => Auth::user()->reservation()->id]) }}" method="POST" class="d-none">
+                        <form id="cancel-form" action="{{ route('reservations.destroy', ['reservation' => Auth::user()->reservation()->id]) }}" method="POST" class="d-none">
                             @csrf
                             @method('DELETE')
                         </form>
@@ -31,7 +31,7 @@
                             Demander une place
                         </a>
 
-                        <form id="reservation-form" action="{{ route('reservation.store') }}" method="POST" class="d-none">
+                        <form id="reservation-form" action="{{ route('reservations.store') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                         @endif
@@ -40,22 +40,10 @@
             </div>
         </div>
 
-        <div class="col-md-8 mt-3">
-            <div class="card">
-                <div class="card-header">Historique des reservations</div>
-
-                <div class="card-body">
-                    <ul>
-                        @forelse ($reservationsHistory as $reservation)
-                        <li>
-                            {{ date('d/m/Y', strtotime($reservation->created_at)) }} : attribution de la place n° {{ $reservation->place->numero }} pour une durée de {{ $reservation->duration }} jour(s)
-                        </li>
-                        @empty
-                        <p>Vide</p>
-                        @endforelse
-                    </ul>
-                </div>
-            </div>
+        <div class="col-md-8 mt-4">
+            @include('includes.history', [
+                'reservationsHistory' => Auth::user()->reservations()->history()->get(),
+            ])
         </div>
     </div>
 </div>

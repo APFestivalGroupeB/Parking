@@ -21,8 +21,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('utilisateurs', App\Http\Controllers\UserController::class);
 
-    Route::resource('reservation', App\Http\Controllers\ReservationController::class)
+    Route::resource('reservations', App\Http\Controllers\ReservationController::class)
         ->except(['create']);
 
-    Route::resource('place', App\Http\Controllers\PlaceController::class);
+    Route::resource('places', App\Http\Controllers\PlaceController::class);
 });

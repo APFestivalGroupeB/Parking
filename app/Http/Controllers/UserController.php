@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -11,7 +13,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('pages.utilisateur.index');
+        return view('pages.utilisateur.index', [
+            'users' => User::orderBy('est_valide', 'ASC')->get(),
+        ]);
     }
 
     /**
@@ -27,7 +31,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'confirmed'],
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'est_valide' => true,
+        ]);
+
+        return redirect()->route('utilisateurs.index')->with('success', 'L\'utilisateur a bien été créé');
     }
 
     /**
@@ -59,6 +76,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        User::findOrFail($id)->delete();
+
+        return redirect()->route('utilisateurs.index')->with('success', 'Utilisateur supprimé avec succès');
     }
 }
