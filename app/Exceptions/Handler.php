@@ -39,10 +39,17 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
-    public function register(): void
+    public function register()
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        // Manage 419 csrf token expiration error
+        $this->renderable(function (\Exception $e) {
+            if ($e->getPrevious() instanceof \Illuminate\Session\TokenMismatchException) {
+                return back()->with('csrfTokenError', 'Tu as mis trop de temps à remplir un formulaire, du coup j\'ai remonté le temps pour toi et pour te ramener juste avant que l\'erreur se produise !');
+            };
         });
     }
 }
