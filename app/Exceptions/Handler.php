@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (\Exception $e) {
             if ($e->getPrevious() instanceof \Illuminate\Session\TokenMismatchException) {
                 return back()->with('csrfTokenError', 'Tu as mis trop de temps à remplir un formulaire, du coup j\'ai remonté le temps pour toi et pour te ramener juste avant que l\'erreur se produise !');
-            };
+            }
         });
     }
 }

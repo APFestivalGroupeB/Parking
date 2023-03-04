@@ -30,7 +30,7 @@ class Place extends Model
 
     public function reservation(): Reservation
     {
-        return $this->reservations()->orderBy('id','desc')->first();
+        return $this->reservations()->orderBy('id', 'desc')->first();
     }
 
     public function isAssigned(): bool
@@ -38,9 +38,9 @@ class Place extends Model
         return 0;
     }
 
-    public function remainingTime() : int 
+    public function remainingTime(): int
     {
-        // nb jours restants 
+        // nb jours restants
         return 0;
     }
 }

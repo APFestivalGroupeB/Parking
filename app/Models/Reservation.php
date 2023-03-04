@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+
 class Reservation extends Model
 {
     use HasFactory;
@@ -48,7 +49,7 @@ class Reservation extends Model
     public function isActive(): bool
     {
         return $this->date_fin <= Carbon::now();
-    } 
+    }
 
     public function getDateFinAttribute(): string
     {

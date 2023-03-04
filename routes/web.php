@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'authenticate']);
 
-//Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::resource('utilisateurs', App\Http\Controllers\UserController::class);
@@ -24,6 +25,4 @@ Auth::routes();
         ->except(['create']);
 
     Route::resource('place', App\Http\Controllers\PlaceController::class);
-
-    
-//});
+});
