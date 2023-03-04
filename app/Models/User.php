@@ -45,11 +45,49 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function lastPosition(): int
+    {
+        $last = self::whereNotNull('position')->orderBy('position', 'desc')->first();
+
+        return $last ? $last->position : 0;
+    }
+
     /**
      * Récupère l'ensemble des réservations demandé par un utilisateur.
      */
-    public function reservations(): HasMany
+    public function reservations()
     {
         return $this->hasMany(Reservation::class);
+    }
+
+    public function reservation()
+    {
+        return $this->reservations()->active()->first();
+    }
+
+    public function place()
+    {
+        return $this->hasPlace()
+            ? $this->reservation()->place
+            : null;
+    }
+
+    public function hasPlace(): bool
+    {
+        return (bool) $this->reservation();
+    }
+
+    public function wait()
+    {
+        if (!$this->isWaiting()) {
+            $this->position = self::lastPosition() + 1;
+
+            $this->save();
+        }
+    }
+
+    public function isWaiting(): bool
+    {
+        return (bool) $this->position;
     }
 }

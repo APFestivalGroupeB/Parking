@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reservation;
+use App\Models\Place;
+use Auth;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
@@ -19,7 +23,18 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        if ($place = Place::free()->first()) {
+            $user->reservations()->create([
+                'date_fin' => Carbon::now()->addDays(7)->toDateString(),
+                'place_id' => $place->id,
+            ]);
+        } else {
+            $user->wait();
+        }
+
+        return redirect()->route('home')->with('success', 'Demande de place prise en compte');
     }
 
     /**
@@ -51,6 +66,10 @@ class ReservationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Reservation::findOrFail($id)->update([
+            'date_fin' => date('Y-m-d'),
+        ]);
+
+        return redirect()->back()->with('success', 'Réservation résilié');
     }
 }
