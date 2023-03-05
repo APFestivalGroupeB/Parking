@@ -21,8 +21,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('utilisateurs', App\Http\Controllers\UserController::class)->except(['edit']);
 
-    Route::resource('reservations', App\Http\Controllers\ReservationController::class)->except(['edit', 'show']);
+    Route::resource('reservations', App\Http\Controllers\ReservationController::class)->except(['edit', 'show', 'update']);
     Route::post('reservations/position/{utilisateur}', [App\Http\Controllers\ReservationController::class, 'changePosition'])->name('reservations.position');
+    Route::post('reservations/force', [App\Http\Controllers\ReservationController::class, 'force'])->name('reservations.force');
+    Route::get('reservations/browse', [App\Http\Controllers\ReservationController::class, 'browse'])->name('reservations.browse');
 
     Route::resource('places', App\Http\Controllers\PlaceController::class)->except(['edit']);
 });

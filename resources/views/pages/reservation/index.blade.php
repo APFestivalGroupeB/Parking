@@ -4,7 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            BTN simule chron
+            <a class="btn btn-dark" href="{{ route('reservations.browse') }}">
+                Executer cron
+            </a>
 
             <div class="card mt-4">
                 <div class="card-header">
@@ -22,14 +24,14 @@
                         </thead>
 
                         <tbody>
-                            @foreach ($users as $user)
+                            @foreach ($waiters as $user)
                             <tr>
                                 <th scope="row">
                                     <form action="{{ route('reservations.position', ['utilisateur' => $user->id]) }}" method="POST" onchange="this.submit()">
                                         @csrf
 
                                         <select class="form-select" name="position">
-                                            @for($i = 1; $i <= $users->count(); $i++)
+                                            @for($i = 1; $i <= $waiters->count(); $i++)
                                             <option value="{{ $i }}" @selected($i == $user->position)>{{ $i }}</option>
                                             @endfor
                                         </select>
@@ -66,6 +68,7 @@
                             <tr class="table-dark">
                                 <th scope="col">Place</th>
                                 <th scope="col">Utilisateur</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
 
@@ -73,7 +76,32 @@
                             @foreach ($places as $place)
                             <tr>
                                 <td scope="row">{{ $place->numero }}</td>
-                                <td>{{ $place->user() ? $place->user()->name : '-' }}</td>
+                                <td>
+                                    <form action="{{ route('reservations.force') }}" method="POST" onchange="this.submit()">
+                                        @csrf
+
+                                        <input type="hidden" name="place_id" value="{{ $place->id }}">
+
+                                        <select class="form-select" name="user_id">
+                                            <option selected disabled hidden>{{ $place->user() ? $place->user()->name : '-' }}</option>
+                                            @foreach($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>
+                                    @if ($place->reservation())
+                                    <a class="btn btn-danger btn-sm" href="#" onclick="event.preventDefault();document.getElementById('end-form').submit();">
+                                        X
+                                    </a>
+
+                                    <form id="end-form" action="{{ route('reservations.destroy', ['reservation' => $place->reservation()->id]) }}" method="POST" class="d-none">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

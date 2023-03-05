@@ -47,6 +47,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function scopeEligible(Builder $query): void
+    {
+        $query->doesnthave('activeReservations');
+    }
+
+    public function scopeValide(Builder $query): void
+    {
+        $query->where('est_valide', true);
+    }
+
     public function scopeWaiting(Builder $query): void
     {
         $query->whereNotNull('position');
@@ -67,9 +77,14 @@ class User extends Authenticatable
         return $this->hasMany(Reservation::class);
     }
 
+    public function activeReservations()
+    {
+        return $this->reservations()->active();
+    }
+
     public function reservation()
     {
-        return $this->reservations()->active()->first();
+        return $this->activeReservations()->first();
     }
 
     public function place()

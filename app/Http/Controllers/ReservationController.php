@@ -19,7 +19,8 @@ class ReservationController extends Controller
     {
         return view('pages.reservation.index', [
             'places' => Place::orderBy('numero', 'asc')->get(),
-            'users' => User::waiting()->orderBy('position', 'asc')->get(),
+            'waiters' => User::waiting()->orderBy('position', 'asc')->get(),
+            'users' => User::valide()->eligible()->get(),
         ]);
     }
 
@@ -42,6 +43,57 @@ class ReservationController extends Controller
         return redirect()->route('home')->with('success', 'Demande de place prise en compte');
     }
 
+    public function force(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'place_id' => 'required|exists:place,id',
+        ]);
+
+        $user = User::find($request->user_id);
+
+        $place = Place::find($request->place_id);
+
+        if ($place->isAssigned()) {
+            $place->reservation()->update([
+                'date_fin' => date('Y-m-d'),
+            ]);
+        }
+
+        $user->reservations()->create([
+            'date_fin' => Carbon::now()->addDays(7)->toDateString(),
+            'place_id' => $place->id,
+        ]);
+
+        $user->position = null;
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Place attribué');
+    }
+
+    public function browse()
+    {
+        $user = User::waiting()->first();
+
+        $place = Place::free()->first();
+
+        if ($user && $place) {
+            $user->reservations()->create([
+                'date_fin' => Carbon::now()->addDays(7)->toDateString(),
+                'place_id' => $place->id,
+            ]);
+
+            $user->position = null;
+
+            $user->save();
+
+            return $this->browse();
+        }
+
+        return redirect()->route('reservations.index')->with('success', 'Les attributions sont à jours');
+    }
+
     public function changePosition(Request $request, string $id)
     {
         $request->validate([
@@ -59,14 +111,6 @@ class ReservationController extends Controller
         $user->save();
 
         return redirect()->route('reservations.index')->with('success', 'Position changé');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
     }
 
     /**
