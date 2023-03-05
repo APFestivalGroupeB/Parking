@@ -28,7 +28,7 @@
                                     <form action="{{ route('reservations.position', ['utilisateur' => $user->id]) }}" method="POST" onchange="this.submit()">
                                         @csrf
 
-                                        <select class="form-select" aria-label="Default select example">
+                                        <select class="form-select" name="position">
                                             @for($i = 1; $i <= $users->count(); $i++)
                                             <option value="{{ $i }}" @selected($i == $user->position)>{{ $i }}</option>
                                             @endfor
