@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -46,9 +47,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function scopeWaiting(Builder $query): void
+    {
+        $query->whereNotNull('position');
+    }
+
     public static function lastPosition(): int
     {
-        $last = self::whereNotNull('position')->orderBy('position', 'desc')->first();
+        $last = self::waiting()->orderBy('position', 'desc')->first();
 
         return $last ? $last->position : 0;
     }

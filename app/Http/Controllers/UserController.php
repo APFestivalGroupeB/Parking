@@ -39,14 +39,14 @@ class UserController extends Controller
             'password' => ['required', 'string', 'confirmed'],
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'est_valide' => true,
         ]);
 
-        return redirect()->route('utilisateurs.index')->with('success', 'L\'utilisateur a bien été créé');
+        return redirect()->route('utilisateurs.show', ['utilisateur' => $user->id])->with('success', 'L\'utilisateur a bien été créé');
     }
 
     /**

@@ -1,37 +1,42 @@
 
 @extends('layouts.app')
-<div class="section-card">
-    <div class="section-card__header">
-        <h1 class="h4 text-nowrap">Ajouter une place</h1>
-    </div>
 
-    <form action="{{ route('places.store') }}" method="POST">
-        @csrf
-        <div class="section-card__body">
-            <div class="row">
-                <div class="col">
-                    <div class="row">
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Ajouter</div>
 
+                <div class="card-body">
+                    <form method="POST" action="{{ route('places.store') }}">
+                        @csrf
 
-                        <div class="form-floating col">
-                            <input class="form-control @error('num_place') is-invalid @enderror" type="text" name="num_place" placeholder=" " value="{{ old('num_place') }}">
-                            <label>Numero place</label>
+                        <div class="row mb-3">
+                            <label for="numero" class="col-md-4 col-form-label text-md-end">Numero</label>
 
+                            <div class="col-md-6">
+                                <input id="numero" type="text" class="form-control @error('numero') is-invalid @enderror" name="numero" value="{{ old('numero') }}" required autocomplete="numero" autofocus>
+
+                                @error('numero')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
 
-
-
-                        <div class="input-group">
-                            <div class="form-floating">
-                                <input class="form-control @error('place_id') is-invalid @enderror" type="text" name="place_id" placeholder=" " value="{{ old('place_id') }}">
-                                <label>Id place</label>
-
-                    </div>
-
-
-
-                            <div class="section-card__footer">
-            <button type="submit" class="btn btn-success">Valider</button>
+                        <div class="row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Ajouter
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
 </div>
+@endsection

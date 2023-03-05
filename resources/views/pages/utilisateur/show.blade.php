@@ -6,7 +6,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ $user->name }}</div>
+                <div class="card-header">
+                    <h1 class="h5 d-inline-block mt-2">Utilisateur {{ $user->name }}</h1>
+
+                    <a class="btn btn-danger float-end" href="#" onclick="event.preventDefault();document.getElementById('delete-form').submit();">
+                        Supprimer
+                    </a>
+
+                    <form id="delete-form" action="{{ route('utilisateurs.destroy', ['utilisateur' => $user->id]) }}" method="POST" class="d-none">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('utilisateurs.update', ['utilisateur' => $user->id]) }}">

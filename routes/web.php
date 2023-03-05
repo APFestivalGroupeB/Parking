@@ -21,7 +21,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('utilisateurs', App\Http\Controllers\UserController::class)->except(['edit']);
 
-    Route::resource('reservations', App\Http\Controllers\ReservationController::class)->except(['create']);
+    Route::resource('reservations', App\Http\Controllers\ReservationController::class)->except(['edit', 'show']);
 
-    Route::resource('places', App\Http\Controllers\PlaceController::class);
+    Route::resource('places', App\Http\Controllers\PlaceController::class)->except(['edit']);
 });

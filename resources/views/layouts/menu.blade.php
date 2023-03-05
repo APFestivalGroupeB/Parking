@@ -53,11 +53,11 @@
                             Places
                         </a>
 
-                        <a class="dropdown-item" href="">
+                        <a class="dropdown-item" href="{{ route('reservations.index') }}">
                             Reservations
                         </a>
 
-                        <a class="dropdown-item" href="">
+                        <a class="dropdown-item" href="{{ route('reservations.index') }}">
                             File d'attente
                         </a>
 

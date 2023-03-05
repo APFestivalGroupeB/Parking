@@ -34,19 +34,20 @@ class Place extends Model
         return $this->hasMany(Reservation::class);
     }
 
-    public function activeReservations()
+    public function reservation()
     {
-        return $this->reservations()->active();
+        return $this->reservations()->active()->first();
     }
 
     public function isAssigned(): bool
     {
-        return 0;
+        return (bool) $this->reservation();
     }
 
-    public function remainingTime(): int
+    public function user()
     {
-        // nb jours restants
-        return 0;
+        return $this->isAssigned()
+            ? $this->reservation()->user
+            : null;
     }
 }
