@@ -9,6 +9,7 @@
                 <div class="card-header">
                     <h1 class="h5 d-inline-block mt-2">Utilisateur {{ $user->name }}</h1>
 
+                    @if ($user->id != Auth::user()->id)
                     <a class="btn btn-danger float-end" href="#" onclick="event.preventDefault();document.getElementById('delete-form').submit();">
                         Supprimer
                     </a>
@@ -17,6 +18,7 @@
                         @csrf
                         @method('DELETE')
                     </form>
+                    @endif
                 </div>
 
                 <div class="card-body">
@@ -59,6 +61,24 @@
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $user->email) }}" required autocomplete="email">
 
                                 @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <class class="col-md-4"></class>
+
+                            <div class="col-md-6">
+                                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                    <input type="checkbox" name="est_valide" class="btn-check" id="est_valide" value="1" @checked(old('est_valide', $user->est_valide)) autocomplete="off" @disabled($user->est_valide)>
+
+                                    <label class="btn btn-outline-success @error('est_valide') is-invalid @enderror" for="est_valide">Autoriser</label>
+                                </div>
+
+                                @error('est_valide')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

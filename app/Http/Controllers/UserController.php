@@ -82,6 +82,7 @@ class UserController extends Controller
             Validator::make($changes, [
                 'name' => ['sometimes', 'string', 'max:255'],
                 'email' => ['sometimes', 'string', 'email', 'max:255', 'unique:users'],
+                'est_valide' => ['sometimes', 'boolean']
             ])->validate();
 
             $user->save();
