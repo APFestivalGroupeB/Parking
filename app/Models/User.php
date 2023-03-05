@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     public function scopeWaiting(Builder $query): void
     {
-        $query->whereNotNull('position');
+        $query->whereNotNull('position')->orderBy('position', 'asc');
     }
 
     public static function lastPosition(): int

@@ -74,6 +74,13 @@ class ReservationController extends Controller
 
     public function browse()
     {
+        $this->refresh();
+
+        return redirect()->route('reservations.index')->with('success', 'Les attributions sont à jours');
+    }
+
+    protected function refresh()
+    {
         $user = User::waiting()->first();
 
         $place = Place::free()->first();
@@ -88,10 +95,8 @@ class ReservationController extends Controller
 
             $user->save();
 
-            return $this->browse();
+            $this->refresh();
         }
-
-        return redirect()->route('reservations.index')->with('success', 'Les attributions sont à jours');
     }
 
     public function changePosition(Request $request, string $id)
@@ -121,6 +126,8 @@ class ReservationController extends Controller
         Reservation::findOrFail($id)->update([
             'date_fin' => date('Y-m-d'),
         ]);
+
+        $this->refresh();
 
         return redirect()->back()->with('success', 'Réservation résilié');
     }
