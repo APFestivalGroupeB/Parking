@@ -19,10 +19,9 @@ Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'authen
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    Route::resource('utilisateurs', App\Http\Controllers\UserController::class);
+    Route::resource('utilisateurs', App\Http\Controllers\UserController::class)->except(['edit']);
 
-    Route::resource('reservations', App\Http\Controllers\ReservationController::class)
-        ->except(['create']);
+    Route::resource('reservations', App\Http\Controllers\ReservationController::class)->except(['create']);
 
     Route::resource('places', App\Http\Controllers\PlaceController::class);
 });

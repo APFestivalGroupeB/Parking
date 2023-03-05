@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -52,15 +54,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        return view('pages.utilisateur.show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        return view('pages.utilisateur.edit');
+        return view('pages.utilisateur.show', [
+            'user' => User::findOrFail($id),
+        ]);
     }
 
     /**
@@ -68,7 +64,30 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        if (!Auth::user()->passwordMatch($request->current_pwd)) {
+            return redirect()->back()/*->withInput()*/->with('error', 'Mot de passe invalide');
+        }
+
+        $request->validate([
+            'password' => ['sometimes', 'string', 'confirmed'],
+        ]);
+
+        $user->fill($request->all());
+
+        $changes = $user->getDirty();
+
+        if ($changes) {
+            Validator::make($changes, [
+                'name' => ['sometimes', 'string', 'max:255'],
+                'email' => ['sometimes', 'string', 'email', 'max:255', 'unique:users'],
+            ])->validate();
+
+            $user->save();
+        }
+
+        return redirect()->route('utilisateurs.show', ['utilisateur' => $user->id])->with('success', 'Modifié avec succès');
     }
 
     /**
