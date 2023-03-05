@@ -24,10 +24,29 @@
                         <tbody>
                             @foreach ($users as $user)
                             <tr>
-                                <th scope="row">{{ $user->position }}</th>
+                                <th scope="row">
+                                    <form action="{{ route('reservations.position', ['utilisateur' => $user->id]) }}" method="POST" onchange="this.submit()">
+                                        @csrf
+
+                                        <select class="form-select" aria-label="Default select example">
+                                            @for($i = 1; $i <= $users->count(); $i++)
+                                            <option value="{{ $i }}" @selected($i == $user->position)>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </form>
+                                </th>
                                 <td>{{ $user->name }}</td>
                                 <td>
+                                    <a class="btn btn-danger btn-sm" href="#" onclick="event.preventDefault();document.getElementById('cancel-form').submit();">
+                                        X
+                                    </a>
 
+                                    <form id="cancel-form" action="{{ route('utilisateurs.update', ['utilisateur' => $user->id]) }}" method="POST" class="d-none">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <input type="hidden" name="position" value="">
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

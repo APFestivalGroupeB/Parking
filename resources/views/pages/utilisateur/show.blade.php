@@ -26,6 +26,7 @@
                         @csrf
                         @method('PUT')
 
+                        @if (!Auth::user()->isAdmin())
                         <div class="row mb-3">
                             <label for="current_pwd" class="col-md-4 col-form-label text-md-end">Mot de passe</label>
 
@@ -39,6 +40,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @endif
 
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
@@ -68,6 +70,7 @@
                             </div>
                         </div>
 
+                        @if (Auth::user()->isAdmin())
                         <div class="row mb-3">
                             <class class="col-md-4"></class>
 
@@ -85,6 +88,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @endif
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -107,6 +111,7 @@
                         @csrf
                         @method('PUT')
 
+                        @if (!Auth::user()->isAdmin())
                         <div class="row mb-3">
                             <label for="current_pwd" class="col-md-4 col-form-label text-md-end">Mot de passe</label>
 
@@ -120,6 +125,7 @@
                                 @enderror
                             </div>
                         </div>
+                        @endif
 
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">Nouveau</label>

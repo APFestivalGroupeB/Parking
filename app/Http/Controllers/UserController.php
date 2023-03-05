@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        if (!Auth::user()->passwordMatch($request->current_pwd)) {
+        if (!Auth::user()->passwordMatch($request->current_pwd) && !Auth::user()->isAdmin()) {
             return redirect()->back()/*->withInput()*/->with('error', 'Mot de passe invalide');
         }
 
@@ -88,7 +88,7 @@ class UserController extends Controller
             $user->save();
         }
 
-        return redirect()->route('utilisateurs.show', ['utilisateur' => $user->id])->with('success', 'Modifié avec succès');
+        return redirect()->back()->with('success', 'Modifié avec succès');
     }
 
     /**

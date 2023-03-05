@@ -41,6 +41,11 @@ class ReservationController extends Controller
         return redirect()->route('home')->with('success', 'Demande de place prise en compte');
     }
 
+    public function changePosition(Request $request, string $id)
+    {
+        //
+    }
+
     /**
      * Update the specified resource in storage.
      */
