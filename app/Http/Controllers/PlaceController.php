@@ -1,7 +1,10 @@
 <?php
 
+namespace App\Http\Controllers\PlaceController;
+
 namespace App\Http\Controllers;
 
+use App\Models\Place;
 use Illuminate\Http\Request;
 
 class PlaceController extends Controller
@@ -11,7 +14,9 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        return view('pages.place.index');
+        return view('pages.place.index', [
+            'places' => Place::orderBy('numero', 'ASC')->get(),
+        ]);
     }
 
     /**
@@ -27,7 +32,15 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'numero' => ['required', 'string', 'max:255', 'unique:place'],
+        ]);
+
+        $place = Place::create([
+            'numero' => $request->numero,
+        ]);
+
+        return redirect()->route('places.show', ['place' => $place->id])->with('success', 'La place a bien été créé');
     }
 
     /**
@@ -35,15 +48,9 @@ class PlaceController extends Controller
      */
     public function show(string $id)
     {
-        return view('pages.place.show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        return view('pages.place.edit');
+        return view('pages.place.show', [
+            'place' => Place::findOrFail($id),
+        ]);
     }
 
     /**
@@ -51,7 +58,17 @@ class PlaceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $place = Place::findOrFail($id);
+
+        $request->validate([
+            'numero' => ['required', 'string', 'max:255', 'unique:place'],
+        ]);
+
+        $place->numero = $request->numero;
+
+        $place->save();
+
+        return redirect()->route('places.show', ['place' => $place->id])->with('success', 'Modifié avec succès');
     }
 
     /**
@@ -59,6 +76,8 @@ class PlaceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Place::findOrFail($id)->delete();
+
+        return redirect()->route('places.index')->with('success', 'Place supprimé avec succès');
     }
 }

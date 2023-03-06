@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\PlaceFactory;
+use App\Models\Place;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 
 class PlaceSeeder extends Seeder
 {
@@ -14,10 +12,6 @@ class PlaceSeeder extends Seeder
      */
     public function run(): void
     {
-        PlaceFactory::factory()->count(50)->create();
-
-       
+        Place::factory()->count(1)->create();
     }
-
-
 }

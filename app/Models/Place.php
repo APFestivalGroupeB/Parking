@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Place extends Model
 {
@@ -20,27 +21,38 @@ class Place extends Model
         'numero',
     ];
 
+    public function scopeFree(Builder $query): void
+    {
+        $query->doesnthave('activeReservations');
+    }
+
     /**
      * Récupère l'historique des réservations pour la place.
      */
-    public function reservations(): HasMany
+    public function reservations()
     {
         return $this->hasMany(Reservation::class);
     }
 
-    public function reservation(): Reservation
+    public function activeReservations()
     {
-        return $this->reservations()->orderBy('id','desc')->first();
+        return $this->reservations()->active();
+    }
+
+    public function reservation()
+    {
+        return $this->activeReservations()->first();
     }
 
     public function isAssigned(): bool
     {
-        return 0;
+        return (bool) $this->reservation();
     }
 
-    public function remainingTime() : int 
+    public function user()
     {
-        // nb jours restants 
-        return 0;
+        return $this->isAssigned()
+            ? $this->reservation()->user
+            : null;
     }
 }

@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+
 class Reservation extends Model
 {
     use HasFactory;
@@ -18,6 +19,8 @@ class Reservation extends Model
      */
     protected $fillable = [
         'date_fin',
+        'user_id',
+        'place_id',
     ];
 
     /**
@@ -26,13 +29,23 @@ class Reservation extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'date_fin' => 'datetime',
+        'date_fin' => 'date',
     ];
+
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('date_fin', '>', date('Y-m-d'));
+    }
+
+    public function scopeHistory(Builder $query): void
+    {
+        $query->where('date_fin', '<=', date('Y-m-d'));
+    }
 
     /**
      * Récupère l'utilisateur ayant effectué la demande de reservation.
      */
-    public function utilisateur(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -40,18 +53,18 @@ class Reservation extends Model
     /**
      * Récupère la place attribué pour la reservation.
      */
-    public function place(): BelongsTo
+    public function place()
     {
         return $this->belongsTo(Place::class);
     }
 
-    public function isActive(): bool
+    public function getDurationAttribute(): int
     {
-        return $this->date_fin <= Carbon::now();
-    } 
+        return date_diff(date_create($this->date_fin), date_create($this->created_at))->days;
+    }
 
-    public function getDateFinAttribute(): string
+    public function getRemainingTimeAttribute()
     {
-        return Carbon::createFromFormat('Y-m-d', $this->created_at)->addDays(7);
+        return date_diff(date_create($this->date_fin), date_create(date('Y-m-d H:i:s')));
     }
 }
